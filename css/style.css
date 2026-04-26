@@ -415,6 +415,7 @@ img { display: block; max-width: 100%; }
 .feature-card {
     padding: 1.6rem;
     text-align: center;
+    height: 100%;
     transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .feature-card:hover,
