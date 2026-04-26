@@ -19,7 +19,6 @@
                 ? Object.entries(data)
                     .map(([id, gig]) => ({ id, ...gig }))
                     .filter(gig => new Date(gig.date + 'T00:00:00') >= today)
-                    .filter(gig => !gig.act || gig.act === 'Emily Joy' || gig.act === 'Both')
                     .sort((a, b) => new Date(a.date) - new Date(b.date))
                 : [];
 
