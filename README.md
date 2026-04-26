@@ -4,6 +4,8 @@ Website for Emily Joy, a professional singer based in Louth, Lincolnshire, perfo
 
 **Live site:** https://gregkaighin.github.io/emily-joy/
 
+**Admin (gig management):** https://gregkaighin.github.io/emily-joy/admin.html
+
 ---
 
 ## Tech Stack
