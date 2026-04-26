@@ -3,7 +3,7 @@
         const container = document.getElementById('gigsContainer');
         if (!container) return;
 
-        if (!window.FIREBASE_DB_URL || FIREBASE_DB_URL.includes('YOUR-PROJECT')) {
+        if (typeof FIREBASE_DB_URL === 'undefined' || FIREBASE_DB_URL.includes('YOUR-PROJECT')) {
             container.innerHTML = '<div class="col-12 text-center"><p class="gigs-empty">Gig listings coming soon.</p></div>';
             return;
         }
