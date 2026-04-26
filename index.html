@@ -67,6 +67,7 @@
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#video">Showreel</a></li>
                     <li class="nav-item"><a class="nav-link" href="#repertoire">Repertoire</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gigs">Gigs</a></li>
                     <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
                     <li class="nav-item ms-lg-3"><a class="nav-link btn-book" href="#contact">Book Me</a></li>
                 </ul>
@@ -302,6 +303,21 @@
                 <i class="fa-solid fa-circle-info me-2"></i>
                 Don't see your favourite? Emily is happy to learn songs especially for your event — just ask!
             </p>
+        </div>
+    </section>
+
+    <!-- ===================== GIGS ===================== -->
+    <section id="gigs" class="section-mid py-section">
+        <div class="container">
+            <div class="section-header text-center mb-5 fade-up">
+                <p class="section-pre">Live Dates</p>
+                <h2 class="section-title">Upcoming Gigs</h2>
+            </div>
+            <div id="gigsContainer" class="row g-3 justify-content-center fade-up" data-delay="100">
+                <div class="col-12 text-center">
+                    <p class="gigs-empty"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading…</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -582,6 +598,51 @@
         </div>
     </footer>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+    (function () {
+        const cfg = {
+            apiKey: "AIzaSyDU2_hYs5ULqXcrGfwYD76upUgGi5Q8FGg",
+            authDomain: "emily-joy.firebaseapp.com",
+            projectId: "emily-joy",
+            storageBucket: "emily-joy.firebasestorage.app",
+            messagingSenderId: "164542553819",
+            appId: "1:164542553819:web:337578ee61e02a3e7b76fe"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(cfg);
+        const db = firebase.firestore();
+
+        const container = document.getElementById('gigsContainer');
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+
+        db.collection('gigs').orderBy('date', 'asc').get().then(snap => {
+            const upcoming = snap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .filter(g => new Date(g.date + 'T00:00:00') >= today);
+
+            if (!upcoming.length) {
+                container.innerHTML = '<div class="col-12 text-center"><p class="gigs-empty">No upcoming gigs at the moment — check back soon.</p></div>';
+                return;
+            }
+            container.innerHTML = upcoming.map(g => `
+                <div class="col-sm-6 col-lg-4">
+                    <div class="gig-card">
+                        <p class="gig-day">${fmtDay(g.date)}</p>
+                        <p class="gig-fulldate">${fmtDate(g.date)}</p>
+                        <p class="gig-venue">${esc(g.venue)}</p>
+                    </div>
+                </div>`).join('');
+        }).catch(() => {
+            container.innerHTML = '<div class="col-12 text-center"><p class="gigs-empty">Unable to load gigs right now.</p></div>';
+        });
+
+        function fmtDay(s)  { return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'long' }); }
+        function fmtDate(s) { return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+        function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    })();
+    </script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous" defer></script>
     <!-- Custom JS -->

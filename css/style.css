@@ -1086,3 +1086,43 @@ body::after {
     .about-photo-wrap { max-width: 240px; }
     .hero-subtitle { letter-spacing: 0.06em; }
 }
+
+/* ============================================================
+   GIGS SECTION
+   ============================================================ */
+.gig-card {
+    background: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    text-align: center;
+    height: 100%;
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.gig-card:hover {
+    border-color: var(--rose);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.28);
+}
+.gig-day {
+    font-family: var(--font-head);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--rose-light);
+    margin-bottom: 0.2rem;
+}
+.gig-fulldate {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+}
+.gig-venue {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin: 0;
+}
+.gigs-empty {
+    color: var(--text-muted);
+    font-style: italic;
+}

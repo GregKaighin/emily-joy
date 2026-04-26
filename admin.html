@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Emily Joy</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --rose:        #d4849e;
+            --rose-light:  #eab0c0;
+            --rose-dark:   #a05570;
+            --dark:        #0c090b;
+            --dark-card:   #1c1219;
+            --dark-border: rgba(212,132,158,0.18);
+            --text:        #f5eff2;
+            --text-muted:  #907f86;
+            --font-head:   'Cormorant Garamond', serif;
+            --font-body:   'Raleway', sans-serif;
+            --radius:      10px;
+            --ease:        0.2s ease;
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--text);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2.5rem 1rem 4rem;
+        }
+
+        .wrap { width: 100%; max-width: 620px; }
+
+        /* Screens */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* Brand */
+        .brand {
+            font-family: var(--font-head);
+            font-style: italic;
+            font-size: 2rem;
+            color: var(--rose-light);
+            text-align: center;
+            margin-bottom: 0.35rem;
+        }
+        .brand-sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        /* Card */
+        .card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1.25rem;
+        }
+        .card-title {
+            font-family: var(--font-head);
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--rose-light);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Fields */
+        .field { margin-bottom: 1rem; }
+        label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+        input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--dark-border);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            padding: 0.65rem 0.85rem;
+            transition: border-color var(--ease);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input:focus { border-color: var(--rose); }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.65rem 1.4rem;
+            transition: background var(--ease), border-color var(--ease), color var(--ease), opacity var(--ease);
+        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-primary  { background: var(--rose); color: #fff; width: 100%; margin-top: 0.5rem; }
+        .btn-primary:hover:not(:disabled) { background: var(--rose-dark); }
+        .btn-add      { background: var(--rose); color: #fff; white-space: nowrap; }
+        .btn-add:hover:not(:disabled) { background: var(--rose-dark); }
+        .btn-delete   { background: transparent; border: 1px solid rgba(255,80,80,0.3); color: rgba(255,120,120,0.8); padding: 0.35rem 0.75rem; font-size: 0.82rem; }
+        .btn-delete:hover:not(:disabled) { border-color: rgba(255,80,80,0.7); color: #ff6060; }
+        .btn-logout   { background: transparent; border: 1px solid var(--dark-border); color: var(--text-muted); font-size: 0.82rem; padding: 0.4rem 0.9rem; }
+        .btn-logout:hover { border-color: var(--rose); color: var(--rose); }
+
+        /* Error */
+        .error { color: #ff8080; font-size: 0.85rem; margin-top: 0.5rem; }
+
+        /* Dashboard header */
+        .dash-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        .dash-header .brand { margin-bottom: 0; text-align: left; }
+
+        /* Add gig row */
+        .add-row {
+            display: grid;
+            grid-template-columns: 160px 1fr auto;
+            gap: 0.75rem;
+            align-items: end;
+        }
+        .add-row .field { margin-bottom: 0; }
+        @media (max-width: 520px) {
+            .add-row { grid-template-columns: 1fr; }
+        }
+
+        /* Gig list */
+        .gig-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--dark-border);
+            background: rgba(255,255,255,0.02);
+            margin-bottom: 0.5rem;
+        }
+        .gig-item.past { opacity: 0.4; }
+        .gig-info { flex: 1; min-width: 0; }
+        .gig-item-date {
+            font-size: 0.8rem;
+            color: var(--rose-light);
+            font-weight: 600;
+            margin-bottom: 0.15rem;
+        }
+        .gig-item-date .past-tag {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-left: 0.4rem;
+        }
+        .gig-item-venue {
+            font-size: 0.9rem;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; font-size: 0.9rem; }
+
+        /* Back link */
+        .back { display: inline-block; color: var(--text-muted); font-size: 0.82rem; text-decoration: none; margin-top: 0.75rem; }
+        .back:hover { color: var(--rose); }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <!-- Loading -->
+    <div id="loadingScreen" class="screen active">
+        <p style="text-align:center;color:var(--text-muted);margin-top:4rem;">Loading…</p>
+    </div>
+
+    <!-- First-time setup -->
+    <div id="setupScreen" class="screen">
+        <div class="brand">Emily Joy</div>
+        <p class="brand-sub">Admin Setup</p>
+        <div class="card">
+            <h1 class="card-title">Create Admin Password</h1>
+            <form id="setupForm" novalidate>
+                <div class="field">
+                    <label for="newPass">New Password</label>
+                    <input type="password" id="newPass" autocomplete="new-password" minlength="6" required>
+                </div>
+                <div class="field">
+                    <label for="confirmPass">Confirm Password</label>
+                    <input type="password" id="confirmPass" autocomplete="new-password" required>
+                </div>
+                <p class="error" id="setupError" hidden></p>
+                <button type="submit" class="btn btn-primary">Set Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login -->
+    <div id="loginScreen" class="screen">
+        <div class="brand">Emily Joy</div>
+        <p class="brand-sub">Gig Admin</p>
+        <div class="card">
+            <h1 class="card-title">Login</h1>
+            <form id="loginForm" novalidate>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" autocomplete="current-password" required>
+                </div>
+                <p class="error" id="loginError" hidden>Incorrect password — please try again.</p>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+        <a href="index.html" class="back">← Back to website</a>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="screen">
+        <div class="dash-header">
+            <div class="brand">Emily Joy</div>
+            <button id="logoutBtn" class="btn btn-logout">Logout</button>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Add a Gig</h2>
+            <form id="addGigForm" novalidate>
+                <div class="add-row">
+                    <div class="field">
+                        <label for="gigDate">Date</label>
+                        <input type="date" id="gigDate" required>
+                    </div>
+                    <div class="field">
+                        <label for="gigVenue">Venue</label>
+                        <input type="text" id="gigVenue" placeholder="e.g. The Venue, Lincoln" maxlength="120" required>
+                    </div>
+                    <button type="submit" class="btn btn-add">Add</button>
+                </div>
+                <p class="error" id="addError" hidden></p>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">All Gigs</h2>
+            <div id="gigsList"><p class="empty">Loading…</p></div>
+        </div>
+
+        <a href="index.html" class="back">← Back to website</a>
+    </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+(function () {
+    const cfg = {
+        apiKey: "AIzaSyDU2_hYs5ULqXcrGfwYD76upUgGi5Q8FGg",
+        authDomain: "emily-joy.firebaseapp.com",
+        projectId: "emily-joy",
+        storageBucket: "emily-joy.firebasestorage.app",
+        messagingSenderId: "164542553819",
+        appId: "1:164542553819:web:337578ee61e02a3e7b76fe"
+    };
+    firebase.initializeApp(cfg);
+    const db = firebase.firestore();
+
+    // ── Helpers ──────────────────────────────────────────────
+
+    async function sha256(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function show(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function setErr(id, msg) {
+        const el = document.getElementById(id);
+        el.textContent = msg || '';
+        el.hidden = !msg;
+    }
+
+    function fmtDate(s) {
+        return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+    // ── Init ─────────────────────────────────────────────────
+
+    async function init() {
+        if (sessionStorage.getItem('ejAdmin') === '1') {
+            show('dashboard');
+            loadGigs();
+            return;
+        }
+        try {
+            const doc = await db.collection('config').doc('admin').get();
+            show(doc.exists && doc.data().passwordHash ? 'loginScreen' : 'setupScreen');
+        } catch {
+            show('loginScreen');
+        }
+    }
+
+    // ── Setup ────────────────────────────────────────────────
+
+    document.getElementById('setupForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const p1 = document.getElementById('newPass').value;
+        const p2 = document.getElementById('confirmPass').value;
+        setErr('setupError', '');
+        if (p1 !== p2)    { setErr('setupError', 'Passwords do not match.'); return; }
+        if (p1.length < 6){ setErr('setupError', 'Password must be at least 6 characters.'); return; }
+        const btn = e.target.querySelector('button');
+        btn.disabled = true;
+        try {
+            await db.collection('config').doc('admin').set({ passwordHash: await sha256(p1) });
+            sessionStorage.setItem('ejAdmin', '1');
+            show('dashboard');
+            loadGigs();
+        } catch { setErr('setupError', 'Could not save — please try again.'); }
+        finally { btn.disabled = false; }
+    });
+
+    // ── Login ────────────────────────────────────────────────
+
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        setErr('loginError', '');
+        const btn = e.target.querySelector('button');
+        btn.disabled = true;
+        try {
+            const doc  = await db.collection('config').doc('admin').get();
+            const hash = await sha256(document.getElementById('password').value);
+            if (doc.data().passwordHash === hash) {
+                sessionStorage.setItem('ejAdmin', '1');
+                show('dashboard');
+                loadGigs();
+            } else {
+                setErr('loginError', 'Incorrect password — please try again.');
+            }
+        } catch { setErr('loginError', 'Unable to verify — please try again.'); }
+        finally { btn.disabled = false; }
+    });
+
+    // ── Logout ───────────────────────────────────────────────
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        sessionStorage.removeItem('ejAdmin');
+        document.getElementById('password').value = '';
+        show('loginScreen');
+    });
+
+    // ── Gigs list ────────────────────────────────────────────
+
+    async function loadGigs() {
+        const list  = document.getElementById('gigsList');
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        list.innerHTML = '<p class="empty">Loading…</p>';
+        try {
+            const snap = await db.collection('gigs').orderBy('date', 'asc').get();
+            if (snap.empty) { list.innerHTML = '<p class="empty">No gigs yet — add one above.</p>'; return; }
+            list.innerHTML = snap.docs.map(doc => {
+                const g      = doc.data();
+                const isPast = new Date(g.date + 'T00:00:00') < today;
+                return `<div class="gig-item${isPast ? ' past' : ''}">
+                    <div class="gig-info">
+                        <div class="gig-item-date">${fmtDate(g.date)}${isPast ? '<span class="past-tag">(past)</span>' : ''}</div>
+                        <div class="gig-item-venue">${esc(g.venue)}</div>
+                    </div>
+                    <button class="btn btn-delete" data-id="${doc.id}">Delete</button>
+                </div>`;
+            }).join('');
+
+            list.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!confirm('Delete this gig?')) return;
+                    btn.disabled = true;
+                    try { await db.collection('gigs').doc(btn.dataset.id).delete(); loadGigs(); }
+                    catch { btn.disabled = false; }
+                });
+            });
+        } catch { list.innerHTML = '<p class="empty">Unable to load gigs.</p>'; }
+    }
+
+    // ── Add gig ──────────────────────────────────────────────
+
+    document.getElementById('addGigForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const date  = document.getElementById('gigDate').value;
+        const venue = document.getElementById('gigVenue').value.trim();
+        setErr('addError', '');
+        if (!date || !venue) { setErr('addError', 'Please fill in both date and venue.'); return; }
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        try {
+            await db.collection('gigs').add({ date, venue, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            e.target.reset();
+            loadGigs();
+        } catch { setErr('addError', 'Failed to add — please try again.'); }
+        finally { btn.disabled = false; }
+    });
+
+    init();
+})();
+</script>
+</body>
+</html>
