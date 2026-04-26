@@ -6,7 +6,7 @@
 
     const ctx  = canvas.getContext('2d');
     const GOLD = '#f0b0c8';
-    const COUNT = 90;
+    const COUNT = 55;
     let W, H, particles;
 
     function resize() {
@@ -35,7 +35,7 @@
         };
 
         this.draw = function() {
-            const alpha = Math.sin(this.phase) * 0.17 + 0.21;
+            const alpha = Math.sin(this.phase) * 0.10 + 0.12;
             ctx.save();
             ctx.globalAlpha = Math.max(0, alpha);
             ctx.fillStyle   = GOLD;
