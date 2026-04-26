@@ -1076,4 +1076,5 @@ body::after {
         -webkit-text-fill-color: transparent;
     }
     .about-photo-wrap { max-width: 240px; }
+    .hero-subtitle { letter-spacing: 0.06em; }
 }
