@@ -133,7 +133,7 @@ img { display: block; max-width: 100%; }
 .btn-gold {
     background-color: #c06878;
     background-image: url('../images/leopard-pattern.svg');
-    background-size: 50px 50px;
+    background-size: 80px 80px;
     color: #fff;
     border: none;
     border-radius: var(--radius);
@@ -148,7 +148,7 @@ img { display: block; max-width: 100%; }
 .btn-gold:hover, .btn-gold:focus {
     background-color: #d4849e;
     background-image: url('../images/leopard-pattern.svg');
-    background-size: 50px 50px;
+    background-size: 80px 80px;
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 8px 28px rgba(212, 132, 158, 0.5);
@@ -234,7 +234,7 @@ img { display: block; max-width: 100%; }
 .navbar-nav .btn-book:hover {
     background-color: var(--rose);
     background-image: url('../images/leopard-pattern.svg');
-    background-size: 50px 50px;
+    background-size: 80px 80px;
     color: #fff !important;
 }
 
