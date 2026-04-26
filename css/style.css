@@ -131,9 +131,7 @@ img { display: block; max-width: 100%; }
    BUTTONS
    ============================================================ */
 .btn-gold {
-    background-color: #c06878;
-    background-image: url('../images/leopard-pattern.svg');
-    background-size: 80px 80px;
+    background: linear-gradient(135deg, var(--rose-dark), var(--rose));
     color: #fff;
     border: none;
     border-radius: var(--radius);
@@ -146,12 +144,10 @@ img { display: block; max-width: 100%; }
     transition: all var(--transition);
 }
 .btn-gold:hover, .btn-gold:focus {
-    background-color: #d4849e;
-    background-image: url('../images/leopard-pattern.svg');
-    background-size: 80px 80px;
-    color: #fff;
+    background: linear-gradient(135deg, var(--rose), var(--rose-light));
+    color: var(--dark);
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(212, 132, 158, 0.5);
+    box-shadow: 0 8px 28px rgba(212, 132, 158, 0.4);
 }
 .btn-outline-gold {
     background: transparent;
@@ -232,9 +228,7 @@ img { display: block; max-width: 100%; }
     transition: all var(--transition);
 }
 .navbar-nav .btn-book:hover {
-    background-color: var(--rose);
-    background-image: url('../images/leopard-pattern.svg');
-    background-size: 80px 80px;
+    background: var(--rose);
     color: #fff !important;
 }
 
