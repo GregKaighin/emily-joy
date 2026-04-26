@@ -250,6 +250,7 @@ img { display: block; max-width: 100%; }
     min-height: 100vh;
     background-color: #0a0508;
     background-image: url('../images/hero-bg.jpg');
+    background-image: image-set(url('../images/hero-bg.webp') type('image/webp'), url('../images/hero-bg.jpg') type('image/jpeg'));
     background-size: cover;
     background-position: center;
     overflow: hidden;
@@ -1048,6 +1049,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     letter-spacing: 0.04em;
     flex-shrink: 0;
 }
+
+/* ============================================================
+   FONT AWESOME FONT-DISPLAY OVERRIDE
+   ============================================================ */
+@font-face { font-family: "Font Awesome 6 Free"; font-display: swap; font-weight: 900; src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-solid-900.woff2") format("woff2"); }
+@font-face { font-family: "Font Awesome 6 Brands"; font-display: swap; font-weight: 400; src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-brands-400.woff2") format("woff2"); }
 
 /* ============================================================
    GRAIN TEXTURE OVERLAY
