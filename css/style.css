@@ -1126,3 +1126,15 @@ body::after {
     color: var(--text-muted);
     font-style: italic;
 }
+.act-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 20px;
+    padding: 0.18rem 0.6rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.act-badge.duo { background: rgba(201,169,110,0.15); color: #c9a96e; }
+.act-badge.joy { background: rgba(212,132,158,0.15); color: var(--rose); }

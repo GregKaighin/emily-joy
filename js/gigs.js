@@ -27,16 +27,21 @@
                 return;
             }
 
-            container.innerHTML = gigs.map(g => `
+            container.innerHTML = gigs.map(g => {
+                const actClass = g.act === 'Emily Joy' ? 'joy' : 'duo';
+                const actLabel = g.act || 'Emily Joy';
+                return `
                 <div class="col-sm-6 col-lg-4">
                     <div class="gig-card">
                         <p class="gig-day">${fmtDay(g.date)}</p>
                         <p class="gig-fulldate">${fmtDate(g.date)}</p>
+                        <span class="act-badge ${actClass}">${esc(actLabel)}</span>
                         <p class="gig-venue">${esc(g.venue)}</p>
                         ${g.time    ? `<p class="gig-time">${esc(g.time)}</p>` : ''}
                         ${g.details ? `<p class="gig-details">${esc(g.details)}</p>` : ''}
                     </div>
-                </div>`).join('');
+                </div>`;
+            }).join('');
 
         } catch (e) {
             container.innerHTML = '<div class="col-12 text-center"><p class="gigs-empty">Unable to load gigs right now.</p></div>';
