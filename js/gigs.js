@@ -28,17 +28,27 @@
             }
 
             container.innerHTML = gigs.map(g => {
+                const d        = new Date(g.date + 'T12:00:00');
+                const dayName  = d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase();
+                const dayNum   = d.getDate();
+                const month    = d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
+                const year     = d.getFullYear();
                 const actClass = g.act === 'Emily Joy' ? 'joy' : 'duo';
                 const actLabel = g.act || 'Emily Joy';
                 return `
                 <div class="col-sm-6 col-lg-4">
                     <div class="gig-card">
-                        <p class="gig-day">${fmtDay(g.date)}</p>
-                        <p class="gig-fulldate">${fmtDate(g.date)}</p>
-                        <span class="act-badge ${actClass}">${esc(actLabel)}</span>
-                        <p class="gig-venue">${esc(g.venue)}</p>
-                        ${g.time    ? `<p class="gig-time">${esc(g.time)}</p>` : ''}
-                        ${g.details ? `<p class="gig-details">${esc(g.details)}</p>` : ''}
+                        <div class="gig-date-block">
+                            <span class="gig-day-name">${dayName}</span>
+                            <span class="gig-day-num">${dayNum}</span>
+                            <span class="gig-month-year">${month} ${year}</span>
+                        </div>
+                        <div class="gig-body">
+                            <span class="act-badge ${actClass}">${esc(actLabel)}</span>
+                            <p class="gig-venue">${esc(g.venue)}</p>
+                            ${g.time    ? `<p class="gig-time">${esc(g.time)}</p>` : ''}
+                            ${g.details ? `<p class="gig-details">${esc(g.details)}</p>` : ''}
+                        </div>
                     </div>
                 </div>`;
             }).join('');
@@ -48,9 +58,7 @@
         }
     }
 
-    function fmtDay(s)  { return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'long' }); }
-    function fmtDate(s) { return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
-    function esc(s)     { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
     document.addEventListener('DOMContentLoaded', loadGigs);
 })();

@@ -1091,35 +1091,86 @@ body::after {
    GIGS SECTION
    ============================================================ */
 .gig-card {
+    display: flex;
+    align-items: stretch;
     background: var(--dark-card);
     border: 1px solid var(--dark-border);
+    border-top: 3px solid var(--rose);
     border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    text-align: center;
+    overflow: hidden;
+    padding: 0;
     height: 100%;
     transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .gig-card:hover {
-    border-color: var(--rose);
-    transform: translateY(-3px);
-    box-shadow: 0 24px 48px rgba(0,0,0,0.28);
+    border-color: rgba(212,132,158,0.5);
+    border-top-color: var(--rose);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
 }
-.gig-day {
+.gig-date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    background: rgba(212,132,158,0.07);
+    border-right: 1px solid var(--dark-border);
+    padding: 1.25rem 0.65rem;
+    text-align: center;
+    flex-shrink: 0;
+}
+.gig-day-name {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: var(--rose-light);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.gig-day-num {
+    font-family: var(--font-head);
+    font-style: italic;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+    margin: 0.15rem 0;
+}
+.gig-month-year {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+.gig-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 1.1rem 1.25rem;
+    flex: 1;
+    min-width: 0;
+}
+.gig-venue {
     font-family: var(--font-head);
     font-style: italic;
     font-size: 1.05rem;
-    color: var(--rose-light);
-    margin-bottom: 0.2rem;
-}
-.gig-fulldate {
-    font-size: 0.9rem;
-    font-weight: 600;
     color: var(--text);
-    margin-bottom: 0.6rem;
+    margin: 0;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.gig-venue {
+.gig-time {
+    font-size: 0.8rem;
+    color: var(--rose-light);
+    margin: 0;
+}
+.gig-details {
+    font-size: 0.78rem;
     color: var(--text-muted);
-    font-size: 0.88rem;
+    font-style: italic;
     margin: 0;
 }
 .gigs-empty {
